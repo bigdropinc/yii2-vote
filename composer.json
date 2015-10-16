@@ -1,0 +1,21 @@
+{
+    "name": "shirase/yii2-like-dislike",
+    "description": "Like and dislike module widget",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","like","dislike"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Akira Shirase",
+            "email": "masgrey@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "shirase\\likedislike\\": ""
+        }
+    }
+}
