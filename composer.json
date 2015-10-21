@@ -1,8 +1,8 @@
 {
-    "name": "shirase/yii2-like-dislike",
+    "name": "shirase/yii2-vote",
     "description": "Like and dislike module widget",
     "type": "yii2-extension",
-    "keywords": ["yii2","extension","like","dislike"],
+    "keywords": ["yii2","extension","like","dislike","vote"],
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "shirase\\likedislike\\": ""
+            "shirase\\vote\\": ""
         }
     }
 }

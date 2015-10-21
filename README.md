@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist shirase/yii2-like-dislike "*"
+php composer.phar require --prefer-dist shirase/yii2-vote "*"
 ```
 
 or add
 
 ```
-"shirase/yii2-like-dislike": "*"
+"shirase/yii2-vote": "*"
 ```
 
 to the require section of your `composer.json` file.
