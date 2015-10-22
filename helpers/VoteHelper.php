@@ -31,6 +31,6 @@ class VoteHelper{
             $modelField => $encode?crc32($model):$model,
             $modelIdField => $model_id,
             $typeField => [$plusState,$minusState],
-        ])->groupBy($modelField)->asArray()->all();
+        ])->groupBy($modelField)->asArray()->one();
     }
 }

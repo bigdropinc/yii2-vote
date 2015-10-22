@@ -11,7 +11,7 @@ class Vote extends Widget{
 	protected $id;
 	public $model;
 	public $primaryField = 'id';
-	public $view = 'index';
+	public $viewPath = 'index';
 	public $enableView = true;
 	public $voteModel = 'shirase\vote\models\Like';
 	public $vote;
@@ -21,6 +21,7 @@ class Vote extends Widget{
 	public $userIdField = 'user_id';
 	public $cancelable = false;
 	public $guestErrorMessage;
+	public $onGuest;
 	public $actionPath;
 	public $ajaxOptions=[];
 	public $likeAction = 'like';
@@ -56,12 +57,16 @@ class Vote extends Widget{
 	}
 	public function run(){
 		if(\Yii::$app->user->isGuest){
+			if(is_callable($this->onGuest)){
+				$run = $this->onGuest;
+				$run();
+			}
 			return $this->guestErrorMessage;
 		}
 		VoteAsset::register($this->view);
 		$this->view->registerJs($this->clientWidget($this->clientVar));
 		if($this->enableView) {
-			return $this->render($this->view, [
+			return $this->render($this->viewPath, [
 				'model' => $this->model,
 				'widgetId' => $this->id,
 				'likeUrl' => Url::to($this->actionPath . $this->likeAction),

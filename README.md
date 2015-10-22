@@ -62,12 +62,12 @@ public function actions()
     {
         return [
             'like'=>[
-                'class'=>VoteAction::className(),
-                'model'=>Vote::className(),
+                'class'=>shirase\vote\actions\VoteAction::className(),
+                'model'=>shirase\vote\models\Vote::className(),
             ],
             'dislike'=>[
-                'class'=>VoteAction::className(),
-                'model'=>Vote::className(),
+                'class'=>shirase\vote\actions\VoteAction::className(),
+                'model'=>shirase\vote\models\Vote::className(),
                 'type'=>-1,
             ],
         ];

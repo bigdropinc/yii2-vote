@@ -3,10 +3,27 @@
  */
 function vote(options){
     var self = this;
-    for(option in options){this[option] = options[option];}
 
+    this.action = 'like';
+	this.action_path = null;
+    this.like_action = 'like';
+    this.dislike_action = 'dislike';
+    this.cancelable = false;
+    this.liked = false;
+    this.disliked = false;
+    this.ajax_options = {};
+    this.concatUrl = function(path, action){
+		if(typeof path == 'string'){
+			return path.replace(/(\/*)?$/,'/').concat(action);
+		}
+		return action;
+	}
+    
     var init = function(){
-        $(self.like_button).on('click',function(){
+    	
+    	for(option in options){self[option] = options[option];}
+        
+    	$(self.like_button).on('click',function(){
             return self.like(self.model,self.id);
         });
         $(self.dislike_button).on('click',function(){
@@ -36,16 +53,8 @@ function vote(options){
         }
     }
 
-    this.action = 'like';
-    this.action_path = (typeof this.action_path == 'undefined')?'':this.action_path.replace(/(\/*)?$/,'/');
-    this.like_action = (typeof this.like_action == 'undefined')?'like':this.like_action;
-    this.dislike_action = (typeof this.dislike_action == 'undefined')?'dislike':this.dislike_action;
-    this.cancelable = (typeof this.cancelable == 'undefined')?false:this.cancelable;
-    this.liked = (typeof this.liked == 'undefined')?false:this.liked;
-    this.disliked = (typeof this.disliked == 'undefined')?false:this.disliked;
-    this.ajax_options = (typeof this.ajax_options == 'undefined')?{}:this.ajax_options;
-
     this.like = function(model, id){
+    	
         self.action = 'like';
         if(!this.liked || this.cancelable) {
             self.send(self.like_action, model, id);
@@ -63,7 +72,7 @@ function vote(options){
 
     this.send = function(action, _model, _id){
         var options = {
-            url:this.action_path.concat(action),
+            url:self.concatUrl(this.action_path,action),
             method:"POST",
             data:{model:_model,id:_id},
             dataType:"json",

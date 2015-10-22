@@ -37,7 +37,11 @@ class VoteAction extends Action{
             return Yii::$app->response->redirect(['/site/error']);
         }
         if(Yii::$app->user->isGuest){
-            return Json::encode(['AccessError'=>'Authorization needed']);
+            return Json::encode([
+            		'status'=>'AccessError',
+            		'message'=>'Authorization needed',
+            		'votes'=>[]
+            ]);
         }
         if(is_callable($this->action)){
             return $this->action();
@@ -63,23 +67,27 @@ class VoteAction extends Action{
                 if($this->cancelable) {
                     if ($like->delete()) {
                         return Json::encode([
-                            'cancel' => 'canceled',
+                            'status' => 'cancel',
+                        	'message' => 'canceled',
                             'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)]);
                     } else {
                         return Json::encode([
-                            'error' => 'Canceling failed',
+                            'status' => 'error',
+                        	'message' => 'Canceling failed',
                             'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)]);
                     }
                 }else{
                     return Json::encode([
-                        'double' => 'Doppelganger',
+                        'status' => 'double',
+                    	'message' => 'Doppelganger',
                         'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
                     ]);
                 }
             }elseif($like->type == ($this->type * (-1))){
                 if(!$like->delete()){
                     return Json::encode([
-                        'error'=>'Vote failed',
+                        'status' => 'error',
+                    	'message' => 'Vote failed',
                         'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
                     ]);
                 }
@@ -87,13 +95,15 @@ class VoteAction extends Action{
         }
         if(!$model->save()){
             return Json::encode([
-                'error'=>'Vote saving failed',
+                'status' => 'error',
+            	'message'=>'Vote saving failed',
                 'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
             ]);
         }
 
         return Json::encode([
-            'success'=>true,
+            'status' => 'success',
+        	'message'=>true,
             'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
         ]);
     }
