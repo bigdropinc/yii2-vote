@@ -16,12 +16,12 @@ class m151019_122725_vote_table extends Migration
             'user_id' => $this->bigInteger()->notNull(),
             'model_id' => $this->bigInteger()->notNull(),
             'model' => $this->string(32)->notNull(),
-            'state' => $this->smallInteger(1)->notNull(),
+            'type' => $this->smallInteger(1)->notNull(),
             'ip' => $this->string(15)->defaultValue(null),
             'created_at' => $this->dateTime()->defaultValue(null),
             'updated_at' => $this->dateTime()->defaultValue(null),
         ], $tableOptions);
-        $this->addPrimaryKey('pk-vote-user_id-model_id-model-state','{{%vote}}',['user_id','model_id','model','state']);
+        $this->addPrimaryKey('pk-vote-user_id-model_id-model-type','{{%vote}}',['user_id','model_id','model','type']);
     }
 
     public function down()

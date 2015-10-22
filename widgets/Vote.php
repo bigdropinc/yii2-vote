@@ -10,11 +10,14 @@ use yii\web\JsExpression;
 class Vote extends Widget{
 	protected $id;
 	public $model;
+	public $primaryField = 'id';
+	public $view = 'index';
+	public $enableView = true;
 	public $voteModel = 'shirase\vote\models\Like';
 	public $vote;
 	public $modelField = 'model';
 	public $modelIdField = 'model_id';
-	public $stateField = 'state';
+	public $typeField = 'type';
 	public $userIdField = 'user_id';
 	public $cancelable = false;
 	public $guestErrorMessage;
@@ -24,7 +27,6 @@ class Vote extends Widget{
 	public $dislikeAction = 'dislike';
 	public $likeButton;
 	public $dislikeButton;
-	public $primaryField = 'id';
 	public $clientOptions = [];
 	public $clientVar;
 
@@ -58,11 +60,13 @@ class Vote extends Widget{
 		}
 		VoteAsset::register($this->view);
 		$this->view->registerJs($this->clientWidget($this->clientVar));
-		return $this->render('index',[
-			'model'=>$this->model,
-			'widgetId'=>$this->id,
-			'likeUrl'=>Url::to($this->actionPath.$this->likeAction),
-			'dislikeUrl'=>Url::to($this->actionPath.$this->dislikeAction),
-		]);
+		if($this->enableView) {
+			return $this->render($this->view, [
+				'model' => $this->model,
+				'widgetId' => $this->id,
+				'likeUrl' => Url::to($this->actionPath . $this->likeAction),
+				'dislikeUrl' => Url::to($this->actionPath . $this->dislikeAction),
+			]);
+		}
 	}
 }

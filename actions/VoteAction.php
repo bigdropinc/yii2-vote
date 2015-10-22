@@ -11,14 +11,31 @@ namespace shirase\vote\actions;
 use shirase\vote\helpers\VoteHelper;
 use yii\base\Action;
 use Yii;
+use yii\filters\VerbFilter;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 class VoteAction extends Action{
     public $model = 'shirase\vote\models\Like';
     public $cancelable = false;
-    public $state = 1;
+    public $type = 1;
     public $action;
+
+    public function behaviors(){
+        return [
+            'verbs'=>[
+                'class'=>VerbFilter::className(),
+                'actions'=>[
+                    '*'=>['post'],
+                ]
+            ]
+        ];
+    }
+
     public function run(){
+        if(!Yii::$app->request->isAjax){
+            return Yii::$app->response->redirect(['/site/error']);
+        }
         if(Yii::$app->user->isGuest){
             return Json::encode(['AccessError'=>'Authorization needed']);
         }
@@ -32,17 +49,17 @@ class VoteAction extends Action{
             'model_id'=>$estimatedModel_id,
             'user_id'=>Yii::$app->user->id,
             'ip'=>Yii::$app->request->userIP,
-            'state'=>$this->state,
+            'type'=>$this->type,
         ];
         $model = new $this->model($options);
         $like = $model::findOne([
             'model'=>$model->model,
             'model_id'=>$model->model_id,
             'user_id'=>$model->user_id,
-            'state'=>[$model->state,$model->state*(-1)],
+            'type'=>[$model->type,$model->type*(-1)],
         ]);
         if($like){
-            if($like->state == $this->state) {
+            if($like->type == $this->type) {
                 if($this->cancelable) {
                     if ($like->delete()) {
                         return Json::encode([
@@ -59,7 +76,7 @@ class VoteAction extends Action{
                         'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
                     ]);
                 }
-            }elseif($like->state == ($this->state * (-1))){
+            }elseif($like->type == ($this->type * (-1))){
                 if(!$like->delete()){
                     return Json::encode([
                         'error'=>'Vote failed',

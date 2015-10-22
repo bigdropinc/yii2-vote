@@ -11,6 +11,7 @@ use yii\web\AssetBundle;
 
 class VoteAsset extends AssetBundle{
     public $sourcePath = '@vendor/shirase/yii2-vote/assets';
+    //public $basePath = '@vendor/shirase/yii2-vote/assets';
 
     public $css = [
         'css/vote.css',
@@ -18,7 +19,8 @@ class VoteAsset extends AssetBundle{
         '//fonts.googleapis.com/css?family=Montserrat',
     ];
     public $js = [
-        //'js/vote.js',
+        'js/vote.js',
+        //'/vote/js/vote.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
