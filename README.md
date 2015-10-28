@@ -42,6 +42,7 @@ Or use predefined migration in MODULE/migrations folder.
 
 Include VoteAction in your controller:
 
+```php
 public function actions()
 {
     return [
@@ -56,24 +57,31 @@ public function actions()
         ],
     ];
 }
-
 ```php
+
 VoteAction parameter:
+---------------------
 	"model" - class name of vote activeRecord. Default value: "shirase\vote\models\Like"
 	"type" - type of operation that will be executed ( 1 => like, -1 => dislike). Default value: 1
 	"action" - anonymous function that will be called instead of action.
 	"allowGuests" - allow action for guest users. Default value: false
 	
 By default client script of voteWidget send "POST" with two parameters for voteAction:
+
 	"model" - class name for voted model. By default value encoded with crc32.
 	"id" - ID for voted model.
 
 By default VoteAction get next parameters from application:
+
 	"user_id" - get from Yii::$app->user->id
 	"ip" - get from Yii::$app->request->userIP
 
+Using widget:
+-------------
+
 Once the extension is installed, simply use it in your code by  :
 
+```php
 shirase\vote\widgets\Vote::widget([
         'model' => $model, //*Obligatory parameter. Object for Like/Dislike.
         'primaryField' => 'id', //Name of primary key for model
