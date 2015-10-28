@@ -26,7 +26,7 @@ Usage
 -----
 
 Create the table votes using needed type for user and model ID's:
-```mysql
+```sql
 CREATE TABLE vote(
 	user_id BIGINT NOT NULL,
 	model_id BIGINT NOT NULL,

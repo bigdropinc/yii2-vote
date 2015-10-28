@@ -59,18 +59,18 @@ class VoteAction extends Action{
                         return Json::encode([
                             'status' => 'cancel',
                         	'message' => 'canceled',
-                            'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)]);
+                            'votes'=>VoteHelper::countVotes($model->model,$model->model_id,['encode'=>false])]);
                     } else {
                         return Json::encode([
                             'status' => 'error',
                         	'message' => 'Canceling failed',
-                            'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)]);
+                            'votes'=>VoteHelper::countVotes($model->model,$model->model_id,['encode'=>false])]);
                     }
                 }else{
                     return Json::encode([
                         'status' => 'double',
                     	'message' => 'Doppelganger',
-                        'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
+                        'votes'=>VoteHelper::countVotes($model->model,$model->model_id,['encode'=>false])
                     ]);
                 }
             }elseif($like->type == ($this->type * (-1))){
@@ -78,7 +78,7 @@ class VoteAction extends Action{
                     return Json::encode([
                         'status' => 'error',
                     	'message' => 'Vote failed',
-                        'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
+                        'votes'=>VoteHelper::countVotes($model->model,$model->model_id,['encode'=>false])
                     ]);
                 }
             }
@@ -87,14 +87,14 @@ class VoteAction extends Action{
             return Json::encode([
                 'status' => 'error',
             	'message'=>'Vote saving failed',
-                'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
+                'votes'=>VoteHelper::countVotes($model->model,$model->model_id,['encode'=>false])
             ]);
         }
 
         return Json::encode([
             'status' => 'success',
         	'message'=>true,
-            'votes'=>VoteHelper::countVotes($model->model,$model->model_id,false)
+            'votes'=>VoteHelper::countVotes($model->model,$model->model_id,['encode'=>false])
         ]);
     }
 }
