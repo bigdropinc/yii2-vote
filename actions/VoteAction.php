@@ -17,26 +17,16 @@ use yii\helpers\Url;
 
 class VoteAction extends Action{
     public $model = 'shirase\vote\models\Like';
+    public $allowGuests = false;
     public $cancelable = false;
     public $type = 1;
     public $action;
-
-    public function behaviors(){
-        return [
-            'verbs'=>[
-                'class'=>VerbFilter::className(),
-                'actions'=>[
-                    '*'=>['post'],
-                ]
-            ]
-        ];
-    }
 
     public function run(){
         if(!Yii::$app->request->isAjax){
             return Yii::$app->response->redirect(['/site/error']);
         }
-        if(Yii::$app->user->isGuest){
+        if(Yii::$app->user->isGuest && !$this->allowGuests){
             return Json::encode([
             		'status'=>'AccessError',
             		'message'=>'Authorization needed',

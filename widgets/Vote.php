@@ -63,9 +63,9 @@ class Vote extends Widget{
 			}
 			return $this->guestErrorMessage;
 		}
+		if($this->enableView) {
 		VoteAsset::register($this->view);
 		$this->view->registerJs($this->clientWidget($this->clientVar));
-		if($this->enableView) {
 			return $this->render($this->viewPath, [
 				'model' => $this->model,
 				'widgetId' => $this->id,
