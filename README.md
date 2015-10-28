@@ -26,8 +26,8 @@ Usage
 -----
 
 Create the table votes using needed type for user and model ID's:
-
-"CREATE TABLE vote(
+```mysql
+CREATE TABLE vote(
 	user_id BIGINT NOT NULL,
 	model_id BIGINT NOT NULL,
 	model VARCHAR(32) NOT NULL,
@@ -36,8 +36,8 @@ Create the table votes using needed type for user and model ID's:
 	created_at DATETIME NOT NULL,
 	updated_at DATETIME NOT NULL,
 	PRIMARY KEY (user_id, model_id, model, type)
-);"
-
+);
+```
 Or use predefined migration in MODULE/migrations folder.
 
 Include VoteAction in your controller:
@@ -57,7 +57,7 @@ public function actions()
         ],
     ];
 }
-```php
+```
 
 VoteAction parameter:
 ---------------------
