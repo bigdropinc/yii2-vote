@@ -59,9 +59,9 @@ class VoteHelper{
         return $class::find()->select([
             'total'=>'count(*)',
             'plus'=>"count(IF($typeField=$plusState,1,NULL))",
-            'Isplus'=>"count(IF(($typeField=$plusState AND (user_id=$user_id)),1,NULL))",
+            'Isplus'=>"count(IF(($typeField=$plusState AND (user_id='$user_id')),1,NULL))",
             'minus'=>"count(IF($typeField=$minusState,1,NULL))",
-            'Isminus'=>"count(IF(($typeField=$minusState AND (user_id=$user_id)),1,NULL))",
+            'Isminus'=>"count(IF(($typeField=$minusState AND (user_id='$user_id')),1,NULL))",
         ])->where([
             $modelField => $encode?crc32($model):$model,
             $modelIdField => $model_id,

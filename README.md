@@ -40,6 +40,10 @@ CREATE TABLE vote(
 ```
 Or use predefined migration in MODULE/migrations folder.
 
+```
+php yii migrate --migrationPath=@vendor/shirase/yii2-vote/migrations
+```
+
 Include VoteAction in your controller:
 
 ```php
