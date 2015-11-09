@@ -7,7 +7,9 @@ function vote(options){
     this.action = 'like';
 	this.action_path = null;
     this.like_action = 'like';
+    this.like_button = '#vote_like_button';
     this.dislike_action = 'dislike';
+    this.dislike_button = '#vote_dislike_button';
     this.cancelable = false;
     this.liked = false;
     this.disliked = false;
@@ -18,6 +20,12 @@ function vote(options){
 		}
 		return action;
 	}
+    this.beforeLike = function(){
+    	return true;
+    }
+    this.beforeDislike = function(){
+    	return true;
+    }
     
     var init = function(){
     	
@@ -54,18 +62,21 @@ function vote(options){
     }
 
     this.like = function(model, id){
-    	
-        self.action = 'like';
-        if(!this.liked || this.cancelable) {
-            self.send(self.like_action, model, id);
-        }
+    	if(self.beforeLike(id)){
+	        self.action = 'like';
+	        if(!this.liked || this.cancelable) {
+	            self.send(self.like_action, model, id);
+	        }
+    	}
         return false;
     };
     this.dislike = function(model,id){
-        self.action = 'dislike';
-        if(!this.disliked || this.cancelable) {
-            self.send(self.dislike_action, model, id);
-        }
+    	if(self.beforeDislike(id)){
+	        self.action = 'dislike';
+	        if(!this.disliked || this.cancelable) {
+	            self.send(self.dislike_action, model, id);
+	        }
+    	}
         return false;
     };
     this.checkAction = function(action){return ((action=='like')||(action=='dislike'));};
