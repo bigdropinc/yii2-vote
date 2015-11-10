@@ -16,7 +16,7 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 
 class VoteAction extends Action{
-    public $model = 'shirase\vote\models\Like';
+    public $model = 'shirase\vote\models\Vote';
     public $allowGuests = false;
     public $cancelable = false;
     public $type = 1;
@@ -46,6 +46,13 @@ class VoteAction extends Action{
             'type'=>$this->type,
         ];
         $model = new $this->model($options);
+        if(!$model->validate()){
+        	return Json::encode([
+        			'status' => 'Error',
+        			'message' => 'Data validation failed',
+        			'errors' => $model->getErrors(),
+        			'votes'=>VoteHelper::countVotes($model->model,$model->model_id,['encode'=>false])]);
+        }
         $like = $model::findOne([
             'model'=>$model->model,
             'model_id'=>$model->model_id,

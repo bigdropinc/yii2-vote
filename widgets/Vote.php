@@ -13,6 +13,7 @@ class Vote extends Widget{
 	public $primaryField = 'id';
 	public $viewPath = 'index';
 	public $enableView = true;
+	public $encode = true;
 	public $voteModel = 'shirase\vote\models\Like';
 	public $vote;
 	public $modelField = 'model';
@@ -41,13 +42,15 @@ class Vote extends Widget{
 		if($var !== null){
 			$begin = "var $var = ";
 		}
+		$class = get_class($this->model);
+		$class = $this->encode?crc32($class):$class;
 		$options = ArrayHelper::merge([
 			'action_path'=>$this->actionPath,
 			'ajax_options'=>$this->ajaxOptions,
 			'like_button'=>$this->likeButton,
 			'dislike_button'=>$this->dislikeButton,
 			'cancelable'=>$this->cancelable,
-			'model'=>crc32(get_class($this->model)),
+			'model'=>$class,
 			'id'=>$this->model[$this->primaryField],
 		],$this->clientOptions);
 		$options = Json::encode($options);
