@@ -8,8 +8,11 @@ function vote(options){
 	this.action_path = null;
     this.like_action = 'like';
     this.like_button = '#vote_like_button';
+    this.like_view = '#vote_like_view';
     this.dislike_action = 'dislike';
     this.dislike_button = '#vote_dislike_button';
+    this.dislike_view = '#vote_dislike_view';
+    this.total_view = '#vote_total_view';
     this.cancelable = false;
     this.liked = false;
     this.disliked = false;
@@ -26,7 +29,21 @@ function vote(options){
     this.beforeDislike = function(){
     	return true;
     }
-    
+    this.setViews = function(count){
+        $(self.total_view).text(count.total);
+        $(self.like_view).text(count.plus);
+        $(self.dislike_view).text(count.minus);
+    }
+    this.likeSuccess = function(data){
+        $(self.like_button).addClass('active');
+        $(self.dislike_button).removeClass('active');
+        self.setViews(data.votes);
+    }
+    this.dislikeSuccess = function dislikeSuccess(data){
+    	$(self.dislike_button).addClass('active');
+    	$(self.like_button).removeClass('active');
+        self.setViews(data.votes);
+    }
     var init = function(){
     	
     	for(option in options){self[option] = options[option];}
@@ -46,7 +63,7 @@ function vote(options){
         return false;
     };
     var hasSuccess = function(){
-        if(typeof self.ajax_options['success'] === 'function');
+        return (typeof self.ajax_options['success'] === 'function');
     };
     var hasError = function(){
         return (typeof self.ajax_options['error'] === 'function');
