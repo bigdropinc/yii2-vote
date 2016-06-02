@@ -114,3 +114,5 @@ shirase\vote\widgets\Vote::widget([
         'guestErrorMessage' => "You are guest, go away!", //Message displaying instead of widget for guest users
         'cancelable'=>true, //Is user able to cancel their like
     ]);
+```
+[![Yii2](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](http://www.yiiframework.com/)

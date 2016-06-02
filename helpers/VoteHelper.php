@@ -43,6 +43,15 @@ class VoteHelper{
             $typeField => $type,
         ])->count();
     }
+    public static function emptyVotes(){
+    	return [
+            'total'=>	0,
+            'plus'=>	0,
+            'Isplus'=>	0,
+            'minus'=>	0,
+            'Isminus'=>	0,
+        ];
+    }
     public static function countVotes($model,$model_id,$_options=[]){
     	$options = array_merge([
     			'encode'=>true,
@@ -66,6 +75,6 @@ class VoteHelper{
             $modelField => $encode?crc32($model):$model,
             $modelIdField => $model_id,
             $typeField => [$plusState,$minusState],
-        ])->groupBy($modelField)->asArray()->one();
+        ])->groupBy($modelField)->asArray()->one()?:static::emptyVotes();
     }
 }
